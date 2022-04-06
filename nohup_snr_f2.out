@@ -1,0 +1,1000 @@
+64*8 1/6 ->(4,4) tcn=8/2
+head: 4
+iter: 2
+snr: -2
+SETRModel(
+  (encoder_2d): Encoder2D(
+    (bert_model): TransModel2d(
+      (dense): InputDense2d(
+        (dense): Linear(in_features=96, out_features=256, bias=True)
+        (LayerNorm): TransLayerNorm()
+      )
+      (embeddings): TransEmbeddings(
+        (position_embeddings): Embedding(64, 256)
+        (LayerNorm): TransLayerNorm()
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (encoder): TransEncoder(
+        (layer): ModuleList(
+          (0): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (1): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (2): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (3): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+        )
+      )
+    )
+    (final_dense): Linear(in_features=256, out_features=4, bias=True)
+  )
+  (decoder_tran): Decoder2D_trans(
+    (bert_model): ReciverModel2d(
+      (dense): Decoder_Dense2d(
+        (dense): Linear(in_features=8, out_features=256, bias=True)
+        (LayerNorm): TransLayerNorm()
+      )
+      (embeddings): TransEmbeddings(
+        (position_embeddings): Embedding(64, 256)
+        (LayerNorm): TransLayerNorm()
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (encoder): TransEncoder(
+        (layer): ModuleList(
+          (0): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (1): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (2): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (3): TransLayer(
+            (attention): TransAttention(
+              (self): TransSelfAttention(
+                (query): Linear(in_features=256, out_features=256, bias=True)
+                (key): Linear(in_features=256, out_features=256, bias=True)
+                (value): Linear(in_features=256, out_features=256, bias=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+              (output): TransSelfOutput(
+                (dense): Linear(in_features=256, out_features=256, bias=True)
+                (LayerNorm): TransLayerNorm()
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+            (intermediate): TransIntermediate(
+              (dense): Linear(in_features=256, out_features=1024, bias=True)
+            )
+            (output): TransOutput(
+              (dense): Linear(in_features=1024, out_features=256, bias=True)
+              (LayerNorm): TransLayerNorm()
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+        )
+      )
+    )
+    (final_dense): Linear(in_features=256, out_features=48, bias=True)
+  )
+  (channel): Channel()
+)
+############## Train model SETR ,with SNR:  -2  ##############
+Files already downloaded and verified
+Files already downloaded and verified
+Epoch:[ 0 ] , loss :  0.0505455787749771
+Epoch:[ 1 ] , loss :  0.019249668259325683
+Epoch:[ 2 ] , loss :  0.01248154926531929
+Epoch:[ 3 ] , loss :  0.010008598297682345
+Epoch:[ 4 ] , loss :  0.008895528260428382
+Epoch:[ 5 ] , loss :  0.008247730835359924
+Epoch:[ 6 ] , loss :  0.007885221085435122
+Epoch:[ 7 ] , loss :  0.007635145455275719
+Epoch:[ 8 ] , loss :  0.007420066449487088
+Epoch:[ 9 ] , loss :  0.00720657197026802
+Epoch:[ 10 ] , loss :  0.00699836181533732
+Epoch:[ 11 ] , loss :  0.006794485964394193
+Epoch:[ 12 ] , loss :  0.006605814515175868
+Epoch:[ 13 ] , loss :  0.006442358503498289
+Epoch:[ 14 ] , loss :  0.00627581813676777
+Epoch:[ 15 ] , loss :  0.006112640490755439
+Epoch:[ 16 ] , loss :  0.005949796892569533
+Epoch:[ 17 ] , loss :  0.00579852352812126
+Epoch:[ 18 ] , loss :  0.005659339904348005
+Epoch:[ 19 ] , loss :  0.005525328318721482
+Epoch:[ 20 ] , loss :  0.00540155407554489
+Epoch:[ 21 ] , loss :  0.005294795205094376
+Epoch:[ 22 ] , loss :  0.005187987896366691
+Epoch:[ 23 ] , loss :  0.005095549597766022
+Epoch:[ 24 ] , loss :  0.005011451188284828
+Epoch:[ 25 ] , loss :  0.004935675058323814
+Epoch:[ 26 ] , loss :  0.004873648062538431
+Epoch:[ 27 ] , loss :  0.004808148269408515
+Epoch:[ 28 ] , loss :  0.004743743165187082
+Epoch:[ 29 ] , loss :  0.004691155831690649
+Epoch:[ 30 ] , loss :  0.004633337083481708
+Epoch:[ 31 ] , loss :  0.004578652192971536
+Epoch:[ 32 ] , loss :  0.004532384904747715
+Epoch:[ 33 ] , loss :  0.004484584937537355
+Epoch:[ 34 ] , loss :  0.004433070663457775
+Epoch:[ 35 ] , loss :  0.0043800347674714055
+Epoch:[ 36 ] , loss :  0.004338551899513268
+Epoch:[ 37 ] , loss :  0.004297293292605604
+Epoch:[ 38 ] , loss :  0.004256515119852004
+Epoch:[ 39 ] , loss :  0.004215653002148076
+Epoch:[ 40 ] , loss :  0.004181937237355706
+Epoch:[ 41 ] , loss :  0.004141402921439814
+Epoch:[ 42 ] , loss :  0.004108742098038902
+Epoch:[ 43 ] , loss :  0.004077199235919635
+Epoch:[ 44 ] , loss :  0.004044819499689097
+Epoch:[ 45 ] , loss :  0.004014538692510021
+Epoch:[ 46 ] , loss :  0.003986980852775504
+Epoch:[ 47 ] , loss :  0.003963835828471929
+Epoch:[ 48 ] , loss :  0.003935758927266816
+Epoch:[ 49 ] , loss :  0.0039106362608584515
+Epoch:[ 50 ] , loss :  0.003881479089614004
+Epoch:[ 51 ] , loss :  0.00386294092251254
+Epoch:[ 52 ] , loss :  0.00384081356293921
+Epoch:[ 53 ] , loss :  0.0038205222725602134
+Epoch:[ 54 ] , loss :  0.0037970278633055183
+Epoch:[ 55 ] , loss :  0.0037784746121044973
+Epoch:[ 56 ] , loss :  0.0037585112506200616
+Epoch:[ 57 ] , loss :  0.003740144522898659
+Epoch:[ 58 ] , loss :  0.003723376219122842
+Epoch:[ 59 ] , loss :  0.0037001405441088185
+Epoch:[ 60 ] , loss :  0.0036815634824107495
+Epoch:[ 61 ] , loss :  0.0036651607595707234
+Epoch:[ 62 ] , loss :  0.0036485444324338163
+Epoch:[ 63 ] , loss :  0.003632612783005651
+Epoch:[ 64 ] , loss :  0.003616600090694823
+Epoch:[ 65 ] , loss :  0.003598802043505165
+Epoch:[ 66 ] , loss :  0.0035817422060657063
+Epoch:[ 67 ] , loss :  0.0035722202702178334
+Epoch:[ 68 ] , loss :  0.0035538052847817994
+Epoch:[ 69 ] , loss :  0.0035395848538669547
+Epoch:[ 70 ] , loss :  0.0035232110839926315
+Epoch:[ 71 ] , loss :  0.0035105068984973642
+Epoch:[ 72 ] , loss :  0.00349760762111721
+Epoch:[ 73 ] , loss :  0.0034847819918709597
+Epoch:[ 74 ] , loss :  0.0034699923268576363
+Epoch:[ 75 ] , loss :  0.0034613896598469237
+Epoch:[ 76 ] , loss :  0.00344611459045804
+Epoch:[ 77 ] , loss :  0.0034371706531193032
+Epoch:[ 78 ] , loss :  0.0034280407268610993
+Epoch:[ 79 ] , loss :  0.003413140894940161
+Epoch:[ 80 ] , loss :  0.0034022177225073837
+Epoch:[ 81 ] , loss :  0.0033909841880145272
+Epoch:[ 82 ] , loss :  0.003381980868170456
+Epoch:[ 83 ] , loss :  0.003371477858828647
+Epoch:[ 84 ] , loss :  0.0033600479245603997
+Epoch:[ 85 ] , loss :  0.0033488993031657015
+Epoch:[ 86 ] , loss :  0.00334218796105029
+Epoch:[ 87 ] , loss :  0.003331356925405182
+Epoch:[ 88 ] , loss :  0.003323777753394097
+Epoch:[ 89 ] , loss :  0.003313343609654706
+Epoch:[ 90 ] , loss :  0.0033027092303738606
+Epoch:[ 91 ] , loss :  0.0032985806191929293
+Epoch:[ 92 ] , loss :  0.0032866022523435554
+Epoch:[ 93 ] , loss :  0.0032811555999559257
+Epoch:[ 94 ] , loss :  0.0032717502041605816
+Epoch:[ 95 ] , loss :  0.003263107428507765
+Epoch:[ 96 ] , loss :  0.0032557319037198108
+Epoch:[ 97 ] , loss :  0.003249857765955052
+Epoch:[ 98 ] , loss :  0.0032400291624517007
+Epoch:[ 99 ] , loss :  0.0032370988949563125
+Epoch:[ 100 ] , loss :  0.0032287815464565493
+Epoch:[ 101 ] , loss :  0.003221431915762321
+Epoch:[ 102 ] , loss :  0.0032152718085111404
+Epoch:[ 103 ] , loss :  0.003206498843703267
+Epoch:[ 104 ] , loss :  0.003201998587298606
+Epoch:[ 105 ] , loss :  0.0031974124662787176
+Epoch:[ 106 ] , loss :  0.0031889290536981914
+Epoch:[ 107 ] , loss :  0.003185466630384326
+Epoch:[ 108 ] , loss :  0.0031774610480559723
+Epoch:[ 109 ] , loss :  0.003168061636958499
+Epoch:[ 110 ] , loss :  0.003163247396551757
+Epoch:[ 111 ] , loss :  0.003161026798046137
+Epoch:[ 112 ] , loss :  0.0031530563695812406
+Epoch:[ 113 ] , loss :  0.003144921171859059
+Epoch:[ 114 ] , loss :  0.003143907611362864
+Epoch:[ 115 ] , loss :  0.0031398709754136447
+Epoch:[ 116 ] , loss :  0.0031332066971618607
+Epoch:[ 117 ] , loss :  0.003128901919901219
+Epoch:[ 118 ] , loss :  0.003123338482751302
+Epoch:[ 119 ] , loss :  0.003115482530936751
+Epoch:[ 120 ] , loss :  0.0031106916175470973
+Epoch:[ 121 ] , loss :  0.0031073721023561545
+Epoch:[ 122 ] , loss :  0.0031031515955335784
+Epoch:[ 123 ] , loss :  0.0030981291890885606
+Epoch:[ 124 ] , loss :  0.0030953128993207093
+Epoch:[ 125 ] , loss :  0.0030882254359312356
+Epoch:[ 126 ] , loss :  0.003083469195300903
+Epoch:[ 127 ] , loss :  0.003079060001811963
+Epoch:[ 128 ] , loss :  0.0030732691093176908
+Epoch:[ 129 ] , loss :  0.003069640865444909
+Epoch:[ 130 ] , loss :  0.0030656785012831036
+Epoch:[ 131 ] , loss :  0.0030635443625363465
+Epoch:[ 132 ] , loss :  0.0030590482127415587
+Epoch:[ 133 ] , loss :  0.0030549017947680336
+Epoch:[ 134 ] , loss :  0.0030523678513566907
+Epoch:[ 135 ] , loss :  0.003047736712056687
+Epoch:[ 136 ] , loss :  0.00304523015594376
+Epoch:[ 137 ] , loss :  0.003038566738927775
+Epoch:[ 138 ] , loss :  0.0030382280261730967
+Epoch:[ 139 ] , loss :  0.003031304679877524
+Epoch:[ 140 ] , loss :  0.0030283073999215755
+Epoch:[ 141 ] , loss :  0.0030222898349165916
+Epoch:[ 142 ] , loss :  0.0030196371835143287
+Epoch:[ 143 ] , loss :  0.0030186812034618035
+Epoch:[ 144 ] , loss :  0.0030133281169193132
+Epoch:[ 145 ] , loss :  0.0030102030070004414
+Epoch:[ 146 ] , loss :  0.003008544565016898
+Epoch:[ 147 ] , loss :  0.0030023024491110475
+Epoch:[ 148 ] , loss :  0.0029983425926303074
+Epoch:[ 149 ] , loss :  0.0029960188620286633
+Epoch:[ 150 ] , loss :  0.0029941588445395535
+Epoch:[ 151 ] , loss :  0.002990742499122814
+Epoch:[ 152 ] , loss :  0.002985349264737143
+Epoch:[ 153 ] , loss :  0.0029818301495373703
+Epoch:[ 154 ] , loss :  0.002978250664677851
+Epoch:[ 155 ] , loss :  0.002976164949953328
+Epoch:[ 156 ] , loss :  0.0029755754524613824
+Epoch:[ 157 ] , loss :  0.002970719163553143
+Epoch:[ 158 ] , loss :  0.0029696522658329686
+Epoch:[ 159 ] , loss :  0.0029672578556881267
+Epoch:[ 160 ] , loss :  0.002965359596953708
+Epoch:[ 161 ] , loss :  0.0029584385967832438
+Epoch:[ 162 ] , loss :  0.002955653900708243
+Epoch:[ 163 ] , loss :  0.0029504997964606297
+Epoch:[ 164 ] , loss :  0.002950384519157969
+Epoch:[ 165 ] , loss :  0.002948116786701947
+Epoch:[ 166 ] , loss :  0.0029471849117485086
+Epoch:[ 167 ] , loss :  0.0029427823420537977
+Epoch:[ 168 ] , loss :  0.002940438660479398
+Epoch:[ 169 ] , loss :  0.002934935977872537
+Epoch:[ 170 ] , loss :  0.0029341303220740997
+Epoch:[ 171 ] , loss :  0.0029304956123993105
+Epoch:[ 172 ] , loss :  0.0029285459943134717
+Epoch:[ 173 ] , loss :  0.002927389928396335
+Epoch:[ 174 ] , loss :  0.0029245639345798716
+Epoch:[ 175 ] , loss :  0.002921440713440201
+Epoch:[ 176 ] , loss :  0.002920456807965375
+Epoch:[ 177 ] , loss :  0.0029148429617931954
+Epoch:[ 178 ] , loss :  0.002915408899437408
+Epoch:[ 179 ] , loss :  0.002912896612839659
+Epoch:[ 180 ] , loss :  0.002906935005591308
+Epoch:[ 181 ] , loss :  0.0029067480307053395
+Epoch:[ 182 ] , loss :  0.0029041933214139877
+Epoch:[ 183 ] , loss :  0.0029023795980218873
+Epoch:[ 184 ] , loss :  0.002899263998522062
+Epoch:[ 185 ] , loss :  0.002898185974823273
+Epoch:[ 186 ] , loss :  0.002893733517599425
+Epoch:[ 187 ] , loss :  0.0028923635147702024
+Epoch:[ 188 ] , loss :  0.0028916434396761563
+Epoch:[ 189 ] , loss :  0.002888547400326221
+Epoch:[ 190 ] , loss :  0.002886923368573569
+Epoch:[ 191 ] , loss :  0.0028838321129430315
+Epoch:[ 192 ] , loss :  0.002882739474369707
+Epoch:[ 193 ] , loss :  0.002879452202659176
+Epoch:[ 194 ] , loss :  0.0028775636170876727
+Epoch:[ 195 ] , loss :  0.0028768466460062383
+Epoch:[ 196 ] , loss :  0.002870741466592465
+Epoch:[ 197 ] , loss :  0.0028691762922882884
+Epoch:[ 198 ] , loss :  0.0028682637886068194
+Epoch:[ 199 ] , loss :  0.0028669046409124013
+Epoch:[ 200 ] , loss :  0.0028631029168276916
+Epoch:[ 201 ] , loss :  0.0028624520803402576
+Epoch:[ 202 ] , loss :  0.002861486690841159
+Epoch:[ 203 ] , loss :  0.0028558320624810854
+Epoch:[ 204 ] , loss :  0.002858020729927004
+Find one best model with best PSNR: 26.695963  under SNR:  -2 in epoch 204
+SNR: [-2,1,4,7,10,13]
+[26.698004, 27.913073, 28.514112, 28.81154, 28.959684, 29.034384]
+Saving Model at epoch 204 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 205 ] , loss :  0.00241637639867674
+Epoch:[ 206 ] , loss :  0.002407662217666832
+Epoch:[ 207 ] , loss :  0.0023908755167064313
+Epoch:[ 208 ] , loss :  0.002380441899211811
+Find one best model with best PSNR: 26.884134  under SNR:  -2 in epoch 208
+SNR: [-2,1,4,7,10,13]
+[26.880692, 28.1471, 28.775337, 29.088655, 29.243462, 29.32119]
+Saving Model at epoch 208 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 209 ] , loss :  0.0023742802037230257
+Epoch:[ 210 ] , loss :  0.0023696857269340176
+Epoch:[ 211 ] , loss :  0.002365430600808135
+Epoch:[ 212 ] , loss :  0.0023603956369512087
+Find one best model with best PSNR: 26.914923  under SNR:  -2 in epoch 212
+SNR: [-2,1,4,7,10,13]
+[26.92195, 28.204565, 28.829453, 29.143744, 29.297207, 29.374456]
+Saving Model at epoch 212 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 213 ] , loss :  0.002359331294428557
+Epoch:[ 214 ] , loss :  0.002351673424472006
+Epoch:[ 215 ] , loss :  0.0023509341135278953
+Epoch:[ 216 ] , loss :  0.0023447675915548995
+Find one best model with best PSNR: 26.920475  under SNR:  -2 in epoch 216
+SNR: [-2,1,4,7,10,13]
+[26.925003, 28.200325, 28.837566, 29.160187, 29.321041, 29.401716]
+Saving Model at epoch 216 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 217 ] , loss :  0.002343718086046224
+Epoch:[ 218 ] , loss :  0.002339296085683971
+Epoch:[ 219 ] , loss :  0.002335911301886473
+Epoch:[ 220 ] , loss :  0.0023360893947585505
+Find one best model with best PSNR: 26.977943  under SNR:  -2 in epoch 220
+SNR: [-2,1,4,7,10,13]
+[26.975275, 28.225418, 28.845673, 29.15371, 29.305769, 29.381962]
+Saving Model at epoch 220 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 221 ] , loss :  0.0023291423329988457
+Epoch:[ 222 ] , loss :  0.002326556752264804
+Epoch:[ 223 ] , loss :  0.002324644777904816
+Epoch:[ 224 ] , loss :  0.002321180548965551
+Find one best model with best PSNR: 26.992725  under SNR:  -2 in epoch 224
+SNR: [-2,1,4,7,10,13]
+[26.991228, 28.275106, 28.912598, 29.229113, 29.388573, 29.467037]
+Saving Model at epoch 224 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 225 ] , loss :  0.002317806465874369
+Epoch:[ 226 ] , loss :  0.002320503606936153
+Epoch:[ 227 ] , loss :  0.002313164928785468
+Epoch:[ 228 ] , loss :  0.0023126984276447674
+Find one best model with best PSNR: 27.011532  under SNR:  -2 in epoch 228
+SNR: [-2,1,4,7,10,13]
+[27.009565, 28.308907, 28.95363, 29.27657, 29.43892, 29.518772]
+Saving Model at epoch 228 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 229 ] , loss :  0.0023105689538262635
+Epoch:[ 230 ] , loss :  0.002308678411764606
+Epoch:[ 231 ] , loss :  0.0023054696788194075
+Epoch:[ 232 ] , loss :  0.00230385066599262
+Find one best model with best PSNR: 27.014938  under SNR:  -2 in epoch 232
+SNR: [-2,1,4,7,10,13]
+[27.019812, 28.303534, 28.9377, 29.254475, 29.41099, 29.490429]
+Saving Model at epoch 232 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 233 ] , loss :  0.0023034039910939733
+Epoch:[ 234 ] , loss :  0.002299714612546472
+Epoch:[ 235 ] , loss :  0.0022964965485568556
+Epoch:[ 236 ] , loss :  0.002297812256705472
+Find one best model with best PSNR: 27.024872  under SNR:  -2 in epoch 236
+SNR: [-2,1,4,7,10,13]
+[27.023684, 28.30382, 28.931566, 29.246607, 29.404543, 29.481638]
+Saving Model at epoch 236 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 237 ] , loss :  0.0022944936692733697
+Epoch:[ 238 ] , loss :  0.0022953835491813265
+Epoch:[ 239 ] , loss :  0.0022902492260351323
+Epoch:[ 240 ] , loss :  0.002286905239868377
+Find one best model with best PSNR: 27.051338  under SNR:  -2 in epoch 240
+SNR: [-2,1,4,7,10,13]
+[27.044437, 28.334444, 28.97245, 29.28835, 29.446728, 29.525135]
+Saving Model at epoch 240 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 241 ] , loss :  0.0022874507846367756
+Epoch:[ 242 ] , loss :  0.0022831004782940963
+Epoch:[ 243 ] , loss :  0.002283406968950769
+Epoch:[ 244 ] , loss :  0.0022803530814506263
+Find one best model with best PSNR: 27.069868  under SNR:  -2 in epoch 244
+SNR: [-2,1,4,7,10,13]
+[27.065418, 28.370365, 29.0191, 29.338406, 29.498125, 29.579296]
+Saving Model at epoch 244 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 245 ] , loss :  0.0022792419423444234
+Epoch:[ 246 ] , loss :  0.002277361571180577
+Epoch:[ 247 ] , loss :  0.00227502300594078
+Epoch:[ 248 ] , loss :  0.0022733039270174137
+Find one best model with best PSNR: 27.06996  under SNR:  -2 in epoch 248
+SNR: [-2,1,4,7,10,13]
+[27.07513, 28.392656, 29.043932, 29.36797, 29.529171, 29.610956]
+Saving Model at epoch 248 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 249 ] , loss :  0.002273022205502327
+Epoch:[ 250 ] , loss :  0.0022706794041703095
+Epoch:[ 251 ] , loss :  0.0022696809669747495
+Epoch:[ 252 ] , loss :  0.0022668408833406107
+Find one best model with best PSNR: 27.099155  under SNR:  -2 in epoch 252
+SNR: [-2,1,4,7,10,13]
+[27.103868, 28.400343, 29.045713, 29.3725, 29.534842, 29.616673]
+Saving Model at epoch 252 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 253 ] , loss :  0.0022665542818852986
+Epoch:[ 254 ] , loss :  0.0022659167250599333
+Epoch:[ 255 ] , loss :  0.002265332806000144
+Epoch:[ 256 ] , loss :  0.0022630596673591254
+Find one best model with best PSNR: 27.101313  under SNR:  -2 in epoch 256
+SNR: [-2,1,4,7,10,13]
+[27.103037, 28.378288, 29.014185, 29.332579, 29.48935, 29.567822]
+Saving Model at epoch 256 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 257 ] , loss :  0.002261134740012717
+Epoch:[ 258 ] , loss :  0.0022587514617860467
+Epoch:[ 259 ] , loss :  0.0022583632760833265
+Epoch:[ 260 ] , loss :  0.0022562798956047973
+Find one best model with best PSNR: 27.10733  under SNR:  -2 in epoch 260
+SNR: [-2,1,4,7,10,13]
+[27.104307, 28.38998, 29.026772, 29.33915, 29.496103, 29.572412]
+Saving Model at epoch 260 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 261 ] , loss :  0.0022537054848020934
+Epoch:[ 262 ] , loss :  0.002252479203815135
+Epoch:[ 263 ] , loss :  0.002254172046526278
+Epoch:[ 264 ] , loss :  0.0022514806359493155
+Find one best model with best PSNR: 27.122253  under SNR:  -2 in epoch 264
+SNR: [-2,1,4,7,10,13]
+[27.12968, 28.434593, 29.083143, 29.402575, 29.56671, 29.646626]
+Saving Model at epoch 264 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 265 ] , loss :  0.002249110300017863
+Epoch:[ 266 ] , loss :  0.0022552986249175606
+Epoch:[ 267 ] , loss :  0.002248167818203112
+Epoch:[ 268 ] , loss :  0.002244997360952655
+Find one best model with best PSNR: 27.124588  under SNR:  -2 in epoch 268
+SNR: [-2,1,4,7,10,13]
+[27.125998, 28.443829, 29.098715, 29.425013, 29.586681, 29.668472]
+Saving Model at epoch 268 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 269 ] , loss :  0.0022450932028361273
+Epoch:[ 270 ] , loss :  0.0022395742957347204
+Epoch:[ 271 ] , loss :  0.0022410921222644343
+Epoch:[ 272 ] , loss :  0.002242868833899574
+Find one best model with best PSNR: 27.133541  under SNR:  -2 in epoch 272
+SNR: [-2,1,4,7,10,13]
+[27.131088, 28.43677, 29.09474, 29.419634, 29.580572, 29.661428]
+Saving Model at epoch 272 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 273 ] , loss :  0.0022424448184117825
+Epoch:[ 274 ] , loss :  0.0022391654665068705
+Epoch:[ 275 ] , loss :  0.0022381668511245933
+Epoch:[ 276 ] , loss :  0.0022428673715805827
+Find one best model with best PSNR: 27.140787  under SNR:  -2 in epoch 276
+SNR: [-2,1,4,7,10,13]
+[27.141575, 28.438807, 29.0912, 29.411415, 29.570822, 29.650513]
+Saving Model at epoch 276 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 277 ] , loss :  0.0022340612212785197
+Epoch:[ 278 ] , loss :  0.0022332362025234923
+Epoch:[ 279 ] , loss :  0.002233324217258439
+Epoch:[ 280 ] , loss :  0.002229752225744329
+Find one best model with best PSNR: 27.163671  under SNR:  -2 in epoch 280
+SNR: [-2,1,4,7,10,13]
+[27.159866, 28.473, 29.119059, 29.446829, 29.607037, 29.687695]
+Saving Model at epoch 280 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 281 ] , loss :  0.0022306003363099787
+Epoch:[ 282 ] , loss :  0.002228629243160997
+Epoch:[ 283 ] , loss :  0.0022299790206099196
+Epoch:[ 284 ] , loss :  0.002228388438067798
+Epoch:[ 285 ] , loss :  0.002227302482684276
+Epoch:[ 286 ] , loss :  0.0022271346842528
+Epoch:[ 287 ] , loss :  0.002223978395222173
+Epoch:[ 288 ] , loss :  0.0022292929482931384
+Epoch:[ 289 ] , loss :  0.0022247252672226454
+Epoch:[ 290 ] , loss :  0.002220760625834596
+Epoch:[ 291 ] , loss :  0.002218544213528916
+Epoch:[ 292 ] , loss :  0.002219718974796409
+Find one best model with best PSNR: 27.180607  under SNR:  -2 in epoch 292
+SNR: [-2,1,4,7,10,13]
+[27.187147, 28.474703, 29.116169, 29.434378, 29.594206, 29.67421]
+Saving Model at epoch 292 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 293 ] , loss :  0.0022186308989909534
+Epoch:[ 294 ] , loss :  0.0022167783968236147
+Epoch:[ 295 ] , loss :  0.002218143552380177
+Epoch:[ 296 ] , loss :  0.0022152538057321645
+Find one best model with best PSNR: 27.193104  under SNR:  -2 in epoch 296
+SNR: [-2,1,4,7,10,13]
+[27.194103, 28.48928, 29.139177, 29.462744, 29.625715, 29.706024]
+Saving Model at epoch 296 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 297 ] , loss :  0.002215429778182309
+Epoch:[ 298 ] , loss :  0.002214715586813661
+Epoch:[ 299 ] , loss :  0.0022119823819482507
+Epoch:[ 300 ] , loss :  0.002210423043853014
+Find one best model with best PSNR: 27.198818  under SNR:  -2 in epoch 300
+SNR: [-2,1,4,7,10,13]
+[27.191841, 28.506319, 29.158415, 29.483353, 29.64655, 29.727371]
+Saving Model at epoch 300 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 301 ] , loss :  0.002209736090105939
+Epoch:[ 302 ] , loss :  0.0022104431254960292
+Epoch:[ 303 ] , loss :  0.002207078624098581
+Epoch:[ 304 ] , loss :  0.0022086222936418287
+Find one best model with best PSNR: 27.206434  under SNR:  -2 in epoch 304
+SNR: [-2,1,4,7,10,13]
+[27.208435, 28.511766, 29.162287, 29.488537, 29.650988, 29.731644]
+Saving Model at epoch 304 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 305 ] , loss :  0.0022080219006260894
+Epoch:[ 306 ] , loss :  0.0022071266727407978
+Epoch:[ 307 ] , loss :  0.002207224077915735
+Epoch:[ 308 ] , loss :  0.0022051624932364388
+Find one best model with best PSNR: 27.21789  under SNR:  -2 in epoch 308
+SNR: [-2,1,4,7,10,13]
+[27.21597, 28.528877, 29.182415, 29.508188, 29.671865, 29.75168]
+Saving Model at epoch 308 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 309 ] , loss :  0.0022038692378020864
+Epoch:[ 310 ] , loss :  0.002204161105268844
+Epoch:[ 311 ] , loss :  0.0022010768321817933
+Epoch:[ 312 ] , loss :  0.002200737437565944
+Epoch:[ 313 ] , loss :  0.002198366513618325
+Epoch:[ 314 ] , loss :  0.002200006866680306
+Epoch:[ 315 ] , loss :  0.0021984407058156723
+Epoch:[ 316 ] , loss :  0.0021979541218440446
+Find one best model with best PSNR: 27.219128  under SNR:  -2 in epoch 316
+SNR: [-2,1,4,7,10,13]
+[27.22435, 28.520876, 29.160881, 29.477953, 29.637432, 29.715784]
+Saving Model at epoch 316 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 317 ] , loss :  0.002200359357425905
+Epoch:[ 318 ] , loss :  0.00219386141053496
+Epoch:[ 319 ] , loss :  0.0021939264059218826
+Epoch:[ 320 ] , loss :  0.0021923756683055236
+Find one best model with best PSNR: 27.229187  under SNR:  -2 in epoch 320
+SNR: [-2,1,4,7,10,13]
+[27.22997, 28.576332, 29.244352, 29.577156, 29.741648, 29.825556]
+Saving Model at epoch 320 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 321 ] , loss :  0.0021936983126690803
+Epoch:[ 322 ] , loss :  0.00219084992909766
+Epoch:[ 323 ] , loss :  0.0021913500528839627
+Epoch:[ 324 ] , loss :  0.002190717568440477
+Find one best model with best PSNR: 27.248518  under SNR:  -2 in epoch 324
+SNR: [-2,1,4,7,10,13]
+[27.24787, 28.571692, 29.233494, 29.564669, 29.728985, 29.81206]
+Saving Model at epoch 324 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 325 ] , loss :  0.00219047881724617
+Epoch:[ 326 ] , loss :  0.0021895116862688897
+Epoch:[ 327 ] , loss :  0.00218895723454046
+Epoch:[ 328 ] , loss :  0.002188637044888978
+Find one best model with best PSNR: 27.25679  under SNR:  -2 in epoch 328
+SNR: [-2,1,4,7,10,13]
+[27.249105, 28.569847, 29.224972, 29.548262, 29.709087, 29.789688]
+Saving Model at epoch 328 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 329 ] , loss :  0.0021863167604184424
+Epoch:[ 330 ] , loss :  0.0021871945509516007
+Epoch:[ 331 ] , loss :  0.002184722111655437
+Epoch:[ 332 ] , loss :  0.0021852264442119977
+Epoch:[ 333 ] , loss :  0.00218414859394828
+Epoch:[ 334 ] , loss :  0.0021839518104774915
+Epoch:[ 335 ] , loss :  0.002182821738438643
+Epoch:[ 336 ] , loss :  0.0021816509768689926
+Epoch:[ 337 ] , loss :  0.002181159733908669
+Epoch:[ 338 ] , loss :  0.0021839673091581433
+Epoch:[ 339 ] , loss :  0.0021797832629016165
+Epoch:[ 340 ] , loss :  0.002178023673822077
+Find one best model with best PSNR: 27.259237  under SNR:  -2 in epoch 340
+SNR: [-2,1,4,7,10,13]
+[27.259588, 28.570412, 29.220675, 29.551857, 29.715662, 29.798462]
+Saving Model at epoch 340 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 341 ] , loss :  0.0021792142319359948
+Epoch:[ 342 ] , loss :  0.0021780186935033345
+Epoch:[ 343 ] , loss :  0.002176117490530394
+Epoch:[ 344 ] , loss :  0.002175852901074199
+Find one best model with best PSNR: 27.26748  under SNR:  -2 in epoch 344
+SNR: [-2,1,4,7,10,13]
+[27.263006, 28.563087, 29.208181, 29.527172, 29.68794, 29.770123]
+Saving Model at epoch 344 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 345 ] , loss :  0.002175726920689399
+Epoch:[ 346 ] , loss :  0.002173245044624699
+Epoch:[ 347 ] , loss :  0.002173693934978195
+Epoch:[ 348 ] , loss :  0.002173550127606307
+Find one best model with best PSNR: 27.27615  under SNR:  -2 in epoch 348
+SNR: [-2,1,4,7,10,13]
+[27.275732, 28.611462, 29.273762, 29.603016, 29.769766, 29.852674]
+Saving Model at epoch 348 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 349 ] , loss :  0.0021735695677771406
+Epoch:[ 350 ] , loss :  0.002170356090313622
+Epoch:[ 351 ] , loss :  0.0021698763772218053
+Epoch:[ 352 ] , loss :  0.0021699641692233557
+Find one best model with best PSNR: 27.281782  under SNR:  -2 in epoch 352
+SNR: [-2,1,4,7,10,13]
+[27.286863, 28.594763, 29.25511, 29.586426, 29.750706, 29.832106]
+Saving Model at epoch 352 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 353 ] , loss :  0.002170349710041239
+Epoch:[ 354 ] , loss :  0.002170349641142375
+Epoch:[ 355 ] , loss :  0.0021694251502464923
+Epoch:[ 356 ] , loss :  0.0021684348644992833
+Epoch:[ 357 ] , loss :  0.0021669931504257707
+Epoch:[ 358 ] , loss :  0.0021675243339387283
+Epoch:[ 359 ] , loss :  0.0021642947525536754
+Epoch:[ 360 ] , loss :  0.0021641989344284318
+Epoch:[ 361 ] , loss :  0.0021640787849069704
+Epoch:[ 362 ] , loss :  0.0021646751710973984
+Epoch:[ 363 ] , loss :  0.002163764939890528
+Epoch:[ 364 ] , loss :  0.002162656820455224
+Epoch:[ 365 ] , loss :  0.002161572940353
+Epoch:[ 366 ] , loss :  0.002163941101218593
+Epoch:[ 367 ] , loss :  0.002159966323382164
+Epoch:[ 368 ] , loss :  0.0021618735354051602
+Find one best model with best PSNR: 27.2969  under SNR:  -2 in epoch 368
+SNR: [-2,1,4,7,10,13]
+[27.3013, 28.625847, 29.287903, 29.621107, 29.785082, 29.868525]
+Saving Model at epoch 368 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 369 ] , loss :  0.002160805047071558
+Epoch:[ 370 ] , loss :  0.002159196725447795
+Epoch:[ 371 ] , loss :  0.0021604139195061382
+Epoch:[ 372 ] , loss :  0.0021586363965274804
+Epoch:[ 373 ] , loss :  0.002159094184337716
+Epoch:[ 374 ] , loss :  0.002156594473564503
+Epoch:[ 375 ] , loss :  0.0021574986767147345
+Epoch:[ 376 ] , loss :  0.0021546719339201035
+Find one best model with best PSNR: 27.30553  under SNR:  -2 in epoch 376
+SNR: [-2,1,4,7,10,13]
+[27.306904, 28.64674, 29.31602, 29.652132, 29.819279, 29.90436]
+Saving Model at epoch 376 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 377 ] , loss :  0.002155964939893052
+Epoch:[ 378 ] , loss :  0.002153618261218071
+Epoch:[ 379 ] , loss :  0.002153269769576359
+Epoch:[ 380 ] , loss :  0.002153015107496128
+Find one best model with best PSNR: 27.314259  under SNR:  -2 in epoch 380
+SNR: [-2,1,4,7,10,13]
+[27.312592, 28.63999, 29.310003, 29.644693, 29.81414, 29.89947]
+Saving Model at epoch 380 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 381 ] , loss :  0.0021537635374424637
+Epoch:[ 382 ] , loss :  0.0021523898479300645
+Epoch:[ 383 ] , loss :  0.0021507671056552884
+Epoch:[ 384 ] , loss :  0.0021491497547166155
+Find one best model with best PSNR: 27.316925  under SNR:  -2 in epoch 384
+SNR: [-2,1,4,7,10,13]
+[27.320831, 28.637493, 29.303284, 29.632887, 29.797693, 29.880466]
+Saving Model at epoch 384 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 385 ] , loss :  0.002148414561073581
+Epoch:[ 386 ] , loss :  0.0021500658381692307
+Epoch:[ 387 ] , loss :  0.0021506637068731444
+Epoch:[ 388 ] , loss :  0.0021502804581303987
+Epoch:[ 389 ] , loss :  0.002148726319523566
+Epoch:[ 390 ] , loss :  0.002148905037237065
+Epoch:[ 391 ] , loss :  0.00214633136412737
+Epoch:[ 392 ] , loss :  0.002147630880449005
+Epoch:[ 393 ] , loss :  0.002147450275144217
+Epoch:[ 394 ] , loss :  0.0021442801243749124
+Epoch:[ 395 ] , loss :  0.0021465599717458293
+Epoch:[ 396 ] , loss :  0.002142940770254984
+Epoch:[ 397 ] , loss :  0.002143287996771004
+Epoch:[ 398 ] , loss :  0.002144453131204129
+Epoch:[ 399 ] , loss :  0.002142983001100888
+Epoch:[ 400 ] , loss :  0.0021428135615697472
+Find one best model with best PSNR: 27.317734  under SNR:  -2 in epoch 400
+SNR: [-2,1,4,7,10,13]
+[27.319384, 28.644615, 29.312437, 29.643766, 29.81039, 29.894978]
+Saving Model at epoch 400 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 401 ] , loss :  0.0021419280804978796
+Epoch:[ 402 ] , loss :  0.002139858147176933
+Epoch:[ 403 ] , loss :  0.0021411727054272685
+Epoch:[ 404 ] , loss :  0.0021388128611297174
+Epoch:[ 405 ] , loss :  0.002140712070193294
+Epoch:[ 406 ] , loss :  0.002139012530037411
+Epoch:[ 407 ] , loss :  0.00213902136928649
+Epoch:[ 408 ] , loss :  0.0021390095115544237
+Find one best model with best PSNR: 27.328228  under SNR:  -2 in epoch 408
+SNR: [-2,1,4,7,10,13]
+[27.331137, 28.671072, 29.339882, 29.675207, 29.839813, 29.923573]
+Saving Model at epoch 408 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 409 ] , loss :  0.0021358601177557924
+Epoch:[ 410 ] , loss :  0.0021371991143143755
+Epoch:[ 411 ] , loss :  0.0021362549937757836
+Epoch:[ 412 ] , loss :  0.002134052034567243
+Epoch:[ 413 ] , loss :  0.002137240895535797
+Epoch:[ 414 ] , loss :  0.0021363467064790657
+Epoch:[ 415 ] , loss :  0.002135343260454888
+Epoch:[ 416 ] , loss :  0.0021338832275989484
+Find one best model with best PSNR: 27.330538  under SNR:  -2 in epoch 416
+SNR: [-2,1,4,7,10,13]
+[27.3352, 28.6543, 29.320087, 29.652617, 29.820925, 29.90483]
+Saving Model at epoch 416 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 417 ] , loss :  0.002132990119541634
+Epoch:[ 418 ] , loss :  0.0021343797561712563
+Epoch:[ 419 ] , loss :  0.002131937696522444
+Epoch:[ 420 ] , loss :  0.0021308184938733372
+Find one best model with best PSNR: 27.349335  under SNR:  -2 in epoch 420
+SNR: [-2,1,4,7,10,13]
+[27.3521, 28.67912, 29.345596, 29.684652, 29.852337, 29.937168]
+Saving Model at epoch 420 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 421 ] , loss :  0.0021316103200067064
+Epoch:[ 422 ] , loss :  0.002131211503684445
+Epoch:[ 423 ] , loss :  0.002130110160096035
+Epoch:[ 424 ] , loss :  0.002129033647420607
+Epoch:[ 425 ] , loss :  0.002129984694076892
+Epoch:[ 426 ] , loss :  0.0021315091598436845
+Epoch:[ 427 ] , loss :  0.0021271244985079964
+Epoch:[ 428 ] , loss :  0.0021276112125559275
+Find one best model with best PSNR: 27.350975  under SNR:  -2 in epoch 428
+SNR: [-2,1,4,7,10,13]
+[27.34855, 28.667542, 29.333305, 29.668682, 29.835796, 29.918581]
+Saving Model at epoch 428 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 429 ] , loss :  0.0021293574376316854
+Epoch:[ 430 ] , loss :  0.002125679092405706
+Epoch:[ 431 ] , loss :  0.0021279744705308837
+Epoch:[ 432 ] , loss :  0.0021271033495265457
+Epoch:[ 433 ] , loss :  0.002126733217702
+Epoch:[ 434 ] , loss :  0.002125622474170309
+Epoch:[ 435 ] , loss :  0.002124247112078592
+Epoch:[ 436 ] , loss :  0.0021241653196238056
+Find one best model with best PSNR: 27.362616  under SNR:  -2 in epoch 436
+SNR: [-2,1,4,7,10,13]
+[27.363605, 28.690495, 29.354353, 29.687866, 29.854347, 29.93988]
+Saving Model at epoch 436 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 437 ] , loss :  0.002124457176993316
+Epoch:[ 438 ] , loss :  0.002122872010733438
+Epoch:[ 439 ] , loss :  0.002125226312830132
+Epoch:[ 440 ] , loss :  0.0021372948391885707
+Find one best model with best PSNR: 27.362743  under SNR:  -2 in epoch 440
+SNR: [-2,1,4,7,10,13]
+[27.356794, 28.702023, 29.376215, 29.71432, 29.883512, 29.969576]
+Saving Model at epoch 440 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 441 ] , loss :  0.0021206223790780927
+Epoch:[ 442 ] , loss :  0.0021224734242720417
+Epoch:[ 443 ] , loss :  0.0021201888341646716
+Epoch:[ 444 ] , loss :  0.0021228078249081665
+Find one best model with best PSNR: 27.363144  under SNR:  -2 in epoch 444
+SNR: [-2,1,4,7,10,13]
+[27.36798, 28.68569, 29.346424, 29.680044, 29.845434, 29.929234]
+Saving Model at epoch 444 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 445 ] , loss :  0.0021198010796738068
+Epoch:[ 446 ] , loss :  0.002119331072412469
+Epoch:[ 447 ] , loss :  0.0021199699282190023
+Epoch:[ 448 ] , loss :  0.0021203791625246556
+Epoch:[ 449 ] , loss :  0.002118709061190258
+Epoch:[ 450 ] , loss :  0.002117378347938196
+Epoch:[ 451 ] , loss :  0.002117335590847521
+Epoch:[ 452 ] , loss :  0.0021165458447470957
+Find one best model with best PSNR: 27.3643  under SNR:  -2 in epoch 452
+SNR: [-2,1,4,7,10,13]
+[27.373968, 28.715635, 29.39769, 29.739788, 29.911762, 29.998522]
+Saving Model at epoch 452 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 453 ] , loss :  0.00211504302153896
+Epoch:[ 454 ] , loss :  0.0021175474809881833
+Epoch:[ 455 ] , loss :  0.0021162305944314114
+Epoch:[ 456 ] , loss :  0.002114830812444074
+Find one best model with best PSNR: 27.378162  under SNR:  -2 in epoch 456
+SNR: [-2,1,4,7,10,13]
+[27.37716, 28.736471, 29.420725, 29.767324, 29.939625, 30.02704]
+Saving Model at epoch 456 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 457 ] , loss :  0.002114535944313001
+Epoch:[ 458 ] , loss :  0.002121607653026906
+Epoch:[ 459 ] , loss :  0.002114719726686955
+Epoch:[ 460 ] , loss :  0.002113047216268142
+Epoch:[ 461 ] , loss :  0.00211269214537888
+Epoch:[ 462 ] , loss :  0.0021140365314916993
+Epoch:[ 463 ] , loss :  0.0021127498036307493
+Epoch:[ 464 ] , loss :  0.0021128983721517176
+Epoch:[ 465 ] , loss :  0.0021122150154005053
+Epoch:[ 466 ] , loss :  0.0021125431682163737
+Epoch:[ 467 ] , loss :  0.0021139091719417093
+Epoch:[ 468 ] , loss :  0.0021103100414026758
+Find one best model with best PSNR: 27.383175  under SNR:  -2 in epoch 468
+SNR: [-2,1,4,7,10,13]
+[27.376781, 28.718182, 29.390924, 29.73225, 29.9017, 29.986021]
+Saving Model at epoch 468 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 469 ] , loss :  0.0021079497088735202
+Epoch:[ 470 ] , loss :  0.0021118140477706126
+Epoch:[ 471 ] , loss :  0.002108669111609687
+Epoch:[ 472 ] , loss :  0.002108829580033578
+Epoch:[ 473 ] , loss :  0.0021098551111134265
+Epoch:[ 474 ] , loss :  0.0021075338222637623
+Epoch:[ 475 ] , loss :  0.002108359077413167
+Epoch:[ 476 ] , loss :  0.0021071473239892523
+Epoch:[ 477 ] , loss :  0.0021088308582262955
+Epoch:[ 478 ] , loss :  0.00210524151013803
+Epoch:[ 479 ] , loss :  0.0021058830625035477
+Epoch:[ 480 ] , loss :  0.002105287756718581
+Find one best model with best PSNR: 27.38425  under SNR:  -2 in epoch 480
+SNR: [-2,1,4,7,10,13]
+[27.38298, 28.732319, 29.406116, 29.740772, 29.910435, 29.995388]
+Saving Model at epoch 480 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 481 ] , loss :  0.002104677733898695
+Epoch:[ 482 ] , loss :  0.0021052325734802124
+Epoch:[ 483 ] , loss :  0.0021047076187809283
+Epoch:[ 484 ] , loss :  0.0021047769791484637
+Find one best model with best PSNR: 27.393032  under SNR:  -2 in epoch 484
+SNR: [-2,1,4,7,10,13]
+[27.39157, 28.723629, 29.393118, 29.7271, 29.891916, 29.975594]
+Saving Model at epoch 484 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 485 ] , loss :  0.0021037724378699324
+Epoch:[ 486 ] , loss :  0.002104423467392976
+Epoch:[ 487 ] , loss :  0.00210577441968632
+Epoch:[ 488 ] , loss :  0.0021780665978143104
+Epoch:[ 489 ] , loss :  0.002124035554553135
+Epoch:[ 490 ] , loss :  0.002110451370791285
+Epoch:[ 491 ] , loss :  0.0021042375277718337
+Epoch:[ 492 ] , loss :  0.002104477004186079
+Find one best model with best PSNR: 27.403131  under SNR:  -2 in epoch 492
+SNR: [-2,1,4,7,10,13]
+[27.406425, 28.74208, 29.410685, 29.74674, 29.915285, 29.999397]
+Saving Model at epoch 492 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 493 ] , loss :  0.0021018844902068756
+Epoch:[ 494 ] , loss :  0.0021011626979868326
+Epoch:[ 495 ] , loss :  0.0021006370554868207
+Epoch:[ 496 ] , loss :  0.002098717430977113
+Find one best model with best PSNR: 27.413044  under SNR:  -2 in epoch 496
+SNR: [-2,1,4,7,10,13]
+[27.413553, 28.761948, 29.437294, 29.777206, 29.946844, 30.03165]
+Saving Model at epoch 496 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 497 ] , loss :  0.002099438324542146
+Epoch:[ 498 ] , loss :  0.0021017441058018226
+Epoch:[ 499 ] , loss :  0.0020989907058478544
+Epoch:[ 500 ] , loss :  0.0020990747321701173
+Epoch:[ 501 ] , loss :  0.002099118195474148
+Epoch:[ 502 ] , loss :  0.002096877308034965
+Epoch:[ 503 ] , loss :  0.002099164810307248
+Epoch:[ 504 ] , loss :  0.0020972252876868434
+Epoch:[ 505 ] , loss :  0.0020966587174797847
+Epoch:[ 506 ] , loss :  0.002095744449749817
+Epoch:[ 507 ] , loss :  0.0020971302690260037
+Epoch:[ 508 ] , loss :  0.0020953100127148994
+Epoch:[ 509 ] , loss :  0.002097368633555134
+Epoch:[ 510 ] , loss :  0.0020965794196390374
+Epoch:[ 511 ] , loss :  0.0020953602940366814
+Epoch:[ 512 ] , loss :  0.002095358261520195
+Epoch:[ 513 ] , loss :  0.002093326998874545
+Epoch:[ 514 ] , loss :  0.002093982663628056
+Epoch:[ 515 ] , loss :  0.002096072199269749
+Epoch:[ 516 ] , loss :  0.0021059140931263716
+Epoch:[ 517 ] , loss :  0.0020953033705080424
+Epoch:[ 518 ] , loss :  0.002091612659717853
+Epoch:[ 519 ] , loss :  0.002091809785901094
+Epoch:[ 520 ] , loss :  0.0020914241821239038
+Epoch:[ 521 ] , loss :  0.0020910449396125135
+Epoch:[ 522 ] , loss :  0.002092417459626093
+Epoch:[ 523 ] , loss :  0.002090088013982476
+Epoch:[ 524 ] , loss :  0.0020907132961188574
+Epoch:[ 525 ] , loss :  0.0020900404102130966
+Epoch:[ 526 ] , loss :  0.002090903749803499
+Epoch:[ 527 ] , loss :  0.0020902037450673096
+Epoch:[ 528 ] , loss :  0.002089167354101011
+Find one best model with best PSNR: 27.423597  under SNR:  -2 in epoch 528
+SNR: [-2,1,4,7,10,13]
+[27.4213, 28.771759, 29.444529, 29.783463, 29.95357, 30.03663]
+Saving Model at epoch 528 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 529 ] , loss :  0.002089541327631177
+Epoch:[ 530 ] , loss :  0.002088872926091129
+Epoch:[ 531 ] , loss :  0.002089129460319801
+Epoch:[ 532 ] , loss :  0.0020874743005355858
+Epoch:[ 533 ] , loss :  0.0020886984118022862
+Epoch:[ 534 ] , loss :  0.002086854480416039
+Epoch:[ 535 ] , loss :  0.002085770606847328
+Epoch:[ 536 ] , loss :  0.0020865400355043156
+Epoch:[ 537 ] , loss :  0.002087213296790094
+Epoch:[ 538 ] , loss :  0.0020872578048622427
+Epoch:[ 539 ] , loss :  0.0020847470358213676
+Epoch:[ 540 ] , loss :  0.002083327755455536
+Find one best model with best PSNR: 27.428747  under SNR:  -2 in epoch 540
+SNR: [-2,1,4,7,10,13]
+[27.429707, 28.769693, 29.433369, 29.76774, 29.935385, 30.018347]
+Saving Model at epoch 540 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 541 ] , loss :  0.002086393822017791
+Epoch:[ 542 ] , loss :  0.0020853639027930567
+Epoch:[ 543 ] , loss :  0.0020839225148012366
+Epoch:[ 544 ] , loss :  0.002082895583767748
+Epoch:[ 545 ] , loss :  0.0020839009138194807
+Epoch:[ 546 ] , loss :  0.0020831055197940798
+Epoch:[ 547 ] , loss :  0.002081879556573433
+Epoch:[ 548 ] , loss :  0.0020822736414444006
+Find one best model with best PSNR: 27.433144  under SNR:  -2 in epoch 548
+SNR: [-2,1,4,7,10,13]
+[27.438828, 28.774706, 29.4526, 29.793697, 29.962875, 30.047888]
+Saving Model at epoch 548 at ./checkpoints/SNR_T_-2/SETR_double_iter_-2.pth
+Epoch:[ 549 ] , loss :  0.002083836220756021
