@@ -1,3 +1,6 @@
+import os
+#os.environ["CUDA_VISIBLE_DEVICES"] ="0"
+GPU_ids = [0,1,2,3]
 import torch 
 from Models.SETR.transformer_seg import SETRModel
 import torchvision
@@ -6,7 +9,6 @@ import torch.nn as nn
 from torchvision import datasets, transforms
 import matplotlib.pyplot as plt 
 import numpy as np
-import os
 import argparse
 
 
@@ -87,9 +89,9 @@ if __name__ == "__main__":
 
     print('snr:',channel_snr)
     print(model)
-    GPU_ids = [0,1,2,3]
     print("############## Train model",args.model,",with SNR: ",channel_snr," ##############")
-    model = nn.DataParallel(model,device_ids = GPU_ids)
+    if len(GPU_ids)>1:
+        model = nn.DataParallel(model,device_ids = GPU_ids)
     model = model.cuda()
     #print(model)
 
