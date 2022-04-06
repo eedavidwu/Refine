@@ -1,5 +1,6 @@
 import os
 #os.environ["CUDA_VISIBLE_DEVICES"] ="0"
+#GPU_ids = [0]
 GPU_ids = [0,1,2,3]
 import torch 
 from Models.SETR.transformer_seg import SETRModel
@@ -80,7 +81,7 @@ if __name__ == "__main__":
                         in_channels=3, 
                         out_channels=3, 
                         hidden_size=256, 
-                        num_hidden_layers=4, 
+                        num_hidden_layers=8, 
                         num_attention_heads=4, 
                         intermediate_size=1024,
                         tcn=tcn)
@@ -104,7 +105,7 @@ if __name__ == "__main__":
         [transforms.ToTensor(), ])
     trainset = torchvision.datasets.CIFAR10(root='./data/cifar', train=True,
                                             download=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,
                                               shuffle=True, num_workers=2)
     testset = torchvision.datasets.CIFAR10(root='./data/cifar', train=False,
                                            download=True, transform=transform)
@@ -121,10 +122,7 @@ if __name__ == "__main__":
 
     #for in_data, label in tqdm(data_loader_train, total=len(data_loader_train)):
     if args.resume==True:
-        #model_path=os.path.join(args.best_ckpt_path,'best_fading_rate_8_transmit_'+str(args.tran_know_flag)+'_equal_1_'+model_name+'_SNR_'+str(train_snr)+'.pth')
         model_path='./checkpoints/SNR_T_10/slim_SETR_double_2_iter_feed_all_SNR_10.pth'
-
-        #model_path=os.path.join(args.best_ckpt_path,'best_weight_'+model_name+'_SNR_H_'+str(train_snr)+'.pth')
         checkpoint=torch.load(model_path)
         epoch_last=checkpoint["epoch"]
         model.load_state_dict(checkpoint["net"])
@@ -168,7 +166,7 @@ if __name__ == "__main__":
             report_loss += loss.item()
         print('Epoch:[',epoch,']',", loss : " ,str(report_loss/step))
 
-        if ((epoch % 4 == 0) and (epoch>200)):
+        if (((epoch % 4 == 0) and (epoch>200)) or (epoch==0)):
             if args.model=='SETR':
                 if channel_snr=='random':
                     PSNR_list=[]
@@ -203,11 +201,11 @@ if __name__ == "__main__":
                         print('Find one best model with best PSNR:',best_psnr,' under SNR: ',validate_snr,'in epoch',epoch)
                         PSNR_list=[]
                         #for i in [1,4,10,16,19]:
-                        for i in [-2,1,4,7,10,13]:
+                        for i in [-2,1,4,7,10]:
                         #for i in [1]:    
                             ave_PSNR_test=compute_AvePSNR(model,testloader,i)
                             PSNR_list.append(ave_PSNR_test)
-                        print('SNR: [-2,1,4,7,10,13]')
+                        print('SNR: [-2,1,4,7,10]')
                         print(PSNR_list)
                         checkpoint={
                             "model_name":'SETR',
