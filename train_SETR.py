@@ -56,7 +56,7 @@ if __name__ == "__main__":
     parser.add_argument("--model", default='SETR', type=str,help='Model select: SETR/ADSETR/')
     #parser.add_argument("--tcn", default=6, type=int,help='tansmit_channel_num for djscc')
     #parser.add_argument("--channel_type", default='awgn', type=str,help='awgn/slow fading/burst')
-    parser.add_argument("--snr", default=10, type=int,help='awgn/slow fading/')
+    parser.add_argument("--snr", default=4, type=int,help='awgn/slow fading/')
 
     #parser.add_argument("--const_snr", default=True,help='SNR (db)')
     #parser.add_argument("--input_const_snr", default=1, type=float,help='SNR (db)')
@@ -81,12 +81,12 @@ if __name__ == "__main__":
                         in_channels=3, 
                         out_channels=3, 
                         hidden_size=256, 
-                        num_hidden_layers=8, 
+                        num_hidden_layers=6, 
                         num_attention_heads=4, 
                         intermediate_size=1024,
                         tcn=tcn)
-        #channel_snr=args.snr
-        channel_snr='random'
+        channel_snr=args.snr
+        #channel_snr='random'
 
     print('snr:',channel_snr)
     print(model)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         [transforms.ToTensor(), ])
     trainset = torchvision.datasets.CIFAR10(root='./data/cifar', train=True,
                                             download=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
                                               shuffle=True, num_workers=2)
     testset = torchvision.datasets.CIFAR10(root='./data/cifar', train=False,
                                            download=True, transform=transform)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
                                              shuffle=False, num_workers=2)
 
 
-    optimizer = torch.optim.Adam(model.parameters(),lr=0.0001)
+    optimizer = torch.optim.Adam(model.parameters(),lr=0.00005)
     #optimizer = torch.optim.Adam(model.parameters())
 
     loss_func = nn.MSELoss()
@@ -148,7 +148,8 @@ if __name__ == "__main__":
                 if i !=(iter_num-1):
                     if i==0:
                         feed_recon=torch.zeros(batch_size,64,48).cuda()
-                        feedback_recon,feedback_latent = model(in_data,feed_recon,channel_snr,i,0)
+                        feed_latent=torch.zeros(batch_size,64,tcn).cuda()
+                        feedback_recon,feedback_latent = model(in_data,feed_recon,channel_snr,i,feed_latent)
                         #decoder_input=feedback_update
                         #feedback[:,:,i*tcn:(i+1)*tcn]=feedback_update
                     #else:
@@ -166,7 +167,7 @@ if __name__ == "__main__":
             report_loss += loss.item()
         print('Epoch:[',epoch,']',", loss : " ,str(report_loss/step))
 
-        if (((epoch % 4 == 0) and (epoch>200)) or (epoch==0)):
+        if (((epoch % 4 == 0) and (epoch>50)) or (epoch==0)):
             if args.model=='SETR':
                 if channel_snr=='random':
                     PSNR_list=[]

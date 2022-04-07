@@ -277,13 +277,14 @@ class SETRModel(nn.Module):
             snr=np.random.rand(batch_size,)*(10+2)-2
         else:
             snr=np.broadcast_to(input_snr,(batch_size,1))
+        feedback_for_encoder=torch.cat((feedback_recon,feedback_latent),dim=2)
+        #feedback_for_encoder=feedback_recon
+        #feedback_for_encoder=feedback_latent
 
-        final_z_seq = self.encoder_2d(x,feedback_recon)
+        final_z_seq = self.encoder_2d(x,feedback_for_encoder)
         channel_out=self.transmit_feature(final_z_seq,snr)
 
         if step_id!=(self.last_iter-1):
-            #b,tcn,_,_=channel_out.shape
-            #channel_out_seq=channel_out.view(b,tcn,-1).permute(0,2,1)
             feedback_latent=channel_out
             #padding
             decoder_padding=torch.zeros_like(feedback_latent)

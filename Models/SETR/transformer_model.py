@@ -353,7 +353,7 @@ class ReciverModel2d(nn.Module):
 class InputDense2d(nn.Module):
     def __init__(self, config,tcn):
         super(InputDense2d, self).__init__()
-        self.dense = nn.Linear(config.patch_size[0] * config.patch_size[1] * config.in_channels+48, config.hidden_size)
+        self.dense = nn.Linear(config.patch_size[0] * config.patch_size[1] * config.in_channels+48+tcn, config.hidden_size)
         self.transform_act_fn = ACT2FN[config.hidden_act]
         self.LayerNorm = TransLayerNorm(config.hidden_size, eps=config.layer_norm_eps)
 
