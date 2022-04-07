@@ -32,7 +32,8 @@ def compute_AvePSNR(model,dataloader,snr):
             if i !=(iter_num-1):
                 if i==0:
                     feed_recon=torch.zeros(b,64,48).cuda()
-                    feedback_recon,feedback_latent = model(inputs,feed_recon,snr,i,0)
+                    feed_latent=torch.zeros(b,64,4).cuda()
+                    feedback_recon,feedback_latent = model(inputs,feed_recon,snr,i,feed_latent)
             else:
                 outputs,_ = model(inputs,feedback_recon,snr,i,feedback_latent)
     

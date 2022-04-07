@@ -280,7 +280,6 @@ class SETRModel(nn.Module):
         feedback_for_encoder=torch.cat((feedback_recon,feedback_latent),dim=2)
         #feedback_for_encoder=feedback_recon
         #feedback_for_encoder=feedback_latent
-
         final_z_seq = self.encoder_2d(x,feedback_for_encoder)
         channel_out=self.transmit_feature(final_z_seq,snr)
 
@@ -288,7 +287,6 @@ class SETRModel(nn.Module):
             feedback_latent=channel_out
             #padding
             decoder_padding=torch.zeros_like(feedback_latent)
-            #1 st reference
             decoder_in=torch.cat((feedback_latent,decoder_padding),dim=2)
             feedback_recon=self.decoder_tran(decoder_in)
             return feedback_recon,feedback_latent
