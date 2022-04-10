@@ -26,17 +26,7 @@ def compute_AvePSNR(model,dataloader,snr):
     for batch_idx, (inputs, _) in enumerate(dataloader, 0):
         b,c,h,w=inputs.shape[0],inputs.shape[1],inputs.shape[2],inputs.shape[3]
         inputs = inputs.cuda()
-        iter_num=2
-        tcn=8//iter_num
-        for i in range(iter_num):
-            if i !=(iter_num-1):
-                if i==0:
-                    feed_recon=torch.zeros(b,64,48).cuda()
-                    feed_latent=torch.zeros(b,64,4).cuda()
-                    feedback_recon,feedback_latent = model(inputs,feed_recon,snr,i,feed_latent)
-            else:
-                outputs,_ = model(inputs,feedback_recon,snr,i,feedback_latent)
-    
+        outputs= model(inputs,snr)
     
         MSE_each_image = (torch.sum(MSE_compute(outputs, inputs).view(b,-1),dim=1))/(c*h*w)
         PSNR_each_image = 10 * torch.log10(1 / MSE_each_image)
@@ -70,11 +60,12 @@ if __name__ == "__main__":
 
     if args.model=='SETR':
         #64*6 1/8 ->(4,4) tcn=6/iter
-        #16*24 1/8->(8,8) tcn=24/iter
-        print("64*8 1/6 ->(4,4) tcn=8/2")
-        print('head: 4')
-        iter_num=2
-        tcn=8//iter_num
+        #print("64*8 1/6 ->(4,4) tcn=8/2")
+        print("64*16 1/3 -> tcn=16/4")
+
+        print('head: 8')
+        iter_num=4
+        tcn=16//iter_num
         print('iter: 2')
         #print("16*24 1/8->(8,8) tcn=24")
         
@@ -82,10 +73,10 @@ if __name__ == "__main__":
                         in_channels=3, 
                         out_channels=3, 
                         hidden_size=256, 
-                        num_hidden_layers=6, 
+                        num_hidden_layers=4, 
                         num_attention_heads=4, 
                         intermediate_size=1024,
-                        tcn=tcn)
+                        tcn=tcn,iteration=4)
         channel_snr=args.snr
         #channel_snr='random'
 
@@ -138,6 +129,7 @@ if __name__ == "__main__":
     for epoch in range(epoch_last,args.all_epoch):
         step = 0
         report_loss = 0
+        #val_ave_psnr=compute_AvePSNR(model,testloader,1)
 
         for in_data, label in trainloader:
             batch_size = len(in_data)
@@ -145,24 +137,8 @@ if __name__ == "__main__":
             #label = label.to(device)
             optimizer.zero_grad()
             step += 1
-            for i in range(iter_num):
-                if i !=(iter_num-1):
-                    if i==0:
-                        feed_recon=torch.zeros(batch_size,64,48).cuda()
-                        feed_latent=torch.zeros(batch_size,64,tcn).cuda()
-                        feedback_recon,feedback_latent = model(in_data,feed_recon,channel_snr,i,feed_latent)
-                        #decoder_input=feedback_update
-                        #feedback[:,:,i*tcn:(i+1)*tcn]=feedback_update
-                    #else:
-                    #    feedback_update = model(in_data,feedback_update,channel_snr,i,0)
-                    #    decoder_input=torch.cat((decoder_input,feedback_update),dim=2)
-                    #    feedback[:,:,i*tcn:(i+1)*tcn]=feedback_update
-
-                else:
-                    out,_ = model(in_data,feedback_recon,channel_snr,i,feedback_latent)
-
+            out= model(in_data,channel_snr)
             loss = loss_func(out, in_data)
-            #print(loss)
             loss.backward()
             optimizer.step()
             report_loss += loss.item()

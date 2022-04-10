@@ -100,11 +100,11 @@ class Fading_Channel(nn.Module):
         return channel_com_out#,inputs_in_norm
 
 class Encoder2D(nn.Module):
-    def __init__(self, config: TransConfig, tcn,is_segmentation=True):
+    def __init__(self, config: TransConfig, tcn,iteration):
         super().__init__()
         self.config = config
         self.out_channels = config.out_channels
-        self.bert_model = TransModel2d(config,tcn)
+        self.bert_model = TransModel2d(config,tcn,iteration)
         sample_rate = config.sample_rate
         sample_v = int(math.pow(2, sample_rate))
         #sample_rate=4,sample_v=16
@@ -117,7 +117,6 @@ class Encoder2D(nn.Module):
         self.ww = self.patch_size[1] // sample_v
         self.tcn=tcn
 
-        self.is_segmentation = is_segmentation
     def forward(self, x,feedback):
         ## x:(b, c, w, h)
         b, c, h, w = x.shape
@@ -138,20 +137,17 @@ class Encoder2D(nn.Module):
         x_in=torch.cat((x,feedback),dim=2)
         
         encode_x = self.bert_model(x_in)[-1] # 取出来最后一层
-        if not self.is_segmentation:
-            return encode_x
-
         x_sequence = self.final_dense(encode_x)
         #x = rearrange(x_f, "b (h w) (p1 p2 c) -> b c (h p1) (w p2)", p1 = self.hh, p2 = self.ww, h = hh, w = ww, c =tcn)
         #x_map = rearrange(x_sequence, "b (h w) (c) -> b c (h) (w)", h = hh, w = ww, c =self.tcn)
         return x_sequence 
 
 class Decoder2D_trans(nn.Module):
-    def __init__(self, config: TransConfig, tcn):
+    def __init__(self, config: TransConfig, tcn,iteration):
         super().__init__()
         self.config = config
         self.out_channels = config.out_channels
-        self.bert_model = ReciverModel2d(config,tcn*2)
+        self.bert_model = ReciverModel2d(config,tcn*iteration)
         #sample_rate=4,sample_v=16
         #self.final_dense = nn.Linear(config.hidden_size, 192)
         self.final_dense = nn.Linear(config.hidden_size, 48)
@@ -210,31 +206,6 @@ class Decoder_Res(nn.Module):
         decoded_5_out = self.FL_De_Module_5(decoded_4_out)
         return decoded_5_out
 
-class PreTrainModel(nn.Module):
-    def __init__(self, patch_size, 
-                        in_channels, 
-                        out_class, 
-                        hidden_size=1024, 
-                        num_hidden_layers=8, 
-                        num_attention_heads=16,
-                        decode_features=[512, 256, 128, 64]):
-        super().__init__()
-        config = TransConfig(patch_size=patch_size, 
-                            in_channels=in_channels, 
-                            out_channels=0, 
-                            hidden_size=hidden_size, 
-                            num_hidden_layers=num_hidden_layers, 
-                            num_attention_heads=num_attention_heads)
-        self.encoder_2d = Encoder2D(config, is_segmentation=False)
-        self.cls = nn.Linear(hidden_size, out_class)
-
-    def forward(self, x):
-        encode_img = self.encoder_2d(x)
-        encode_pool = encode_img.mean(dim=1)
-        out = self.cls(encode_pool)
-        return out 
-
-
 class SETRModel(nn.Module):
     def __init__(self, patch_size=(32, 32), 
                         in_channels=3, 
@@ -244,7 +215,7 @@ class SETRModel(nn.Module):
                         num_attention_heads=16,
                         max_position_embeddings=64,
                         intermediate_size=512,
-                        sample_rate=2,tcn=8):
+                        sample_rate=2,tcn=4,iteration=4):
         super().__init__()
         config = TransConfig(patch_size=patch_size, 
                             in_channels=in_channels, 
@@ -255,12 +226,17 @@ class SETRModel(nn.Module):
                             max_position_embeddings=max_position_embeddings,
                             num_hidden_layers=num_hidden_layers, 
                             num_attention_heads=num_attention_heads)
-        self.encoder_2d = Encoder2D(config,tcn)
+        self.encoder_2d = Encoder2D(config,tcn,iteration)
         #self.decoder_2d = Decoder2D(in_channels=tcn, out_channels=config.out_channels, features=decode_features)
         #self.res_decoder=Decoder_Res(in_channel=tcn*3)
-        self.decoder_tran=Decoder2D_trans(config,tcn)
+        self.decoder_tran=Decoder2D_trans(config,tcn,iteration)
         self.channel=Channel()
-        self.last_iter=8//tcn
+        self.last_iter=4
+        #feature each iteration
+        self.tcn=4
+        self.fb_num=52
+        self.iteration=4
+
 
 
     def transmit_feature(self,feature,channel_snr):
@@ -271,29 +247,35 @@ class SETRModel(nn.Module):
         feature_out=feature_ave/5
         return feature_out
 
-    def forward(self, x,feedback_recon,input_snr,step_id,feedback_latent):
+    def forward(self, x,input_snr):
         batch_size=x.shape[0]
         if input_snr=='random':
             snr=np.random.rand(batch_size,)*(10+2)-2
         else:
             snr=np.broadcast_to(input_snr,(batch_size,1))
-        feedback_for_encoder=torch.cat((feedback_recon,feedback_latent),dim=2)
-        #feedback_for_encoder=feedback_recon
-        #feedback_for_encoder=feedback_latent
-        final_z_seq = self.encoder_2d(x,feedback_for_encoder)
-        channel_out=self.transmit_feature(final_z_seq,snr)
+        tcn=self.tcn
 
-        if step_id!=(self.last_iter-1):
-            feedback_latent=channel_out
-            #padding
-            decoder_padding=torch.zeros_like(feedback_latent)
-            decoder_in=torch.cat((feedback_latent,decoder_padding),dim=2)
-            feedback_recon=self.decoder_tran(decoder_in)
-            return feedback_recon,feedback_latent
-        else:
-            decoder_final=torch.cat((feedback_latent,channel_out),dim=2)
-            x=self.decoder_tran(decoder_final)
-            x_out = rearrange(x, "b (h w) (p1 p2 c) -> b c (h p1) (w p2)", p1 = 4, p2 = 4, h = 8, w = 8, c =3)
-            return x_out, channel_out
+
+        feedback_for_encoder_all=torch.zeros(batch_size,64,(52)*(self.last_iter-1)).cuda()
+        latent_for_decoder_all=torch.zeros(batch_size,64,4*(self.last_iter)).cuda()
+
+        for step_id in range(self.iteration):
+            if step_id!=(self.last_iter-1):
+                final_z_seq = self.encoder_2d(x,feedback_for_encoder_all)
+                channel_out=self.transmit_feature(final_z_seq,snr)
+                latent_for_decoder_all[:,:,step_id*tcn:(step_id+1)*tcn]=channel_out
+                #feedback_recon=torch.zeros(batch_size,64,48).cuda()
+                feedback_recon=self.decoder_tran(latent_for_decoder_all).detach()
+                #prepare feedback
+                feedback_for_next_iter=torch.cat((feedback_recon,channel_out),dim=2)
+                feedback_for_encoder_all[:,:,step_id*52:(step_id+1)*52]=feedback_for_next_iter
+                
+            else:
+                final_z_seq = self.encoder_2d(x,feedback_for_encoder_all)
+                channel_out=self.transmit_feature(final_z_seq,snr)
+                latent_for_decoder_all[:,:,step_id*tcn:(step_id+1)*tcn]=channel_out
+                out=self.decoder_tran(latent_for_decoder_all)
+                x_out = rearrange(out, "b (h w) (p1 p2 c) -> b c (h p1) (w p2)", p1 = 4, p2 = 4, h = 8, w = 8, c =3)
+                return x_out
 
   
