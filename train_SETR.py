@@ -1,7 +1,7 @@
 import os
 #os.environ["CUDA_VISIBLE_DEVICES"] ="0"
 #GPU_ids = [0]
-GPU_ids = [0,1,2,3]
+GPU_ids = [0,1]
 import torch 
 from Models.SETR.transformer_seg import SETRModel
 import torchvision
@@ -73,8 +73,8 @@ if __name__ == "__main__":
                         in_channels=3, 
                         out_channels=3, 
                         hidden_size=256, 
-                        num_hidden_layers=4, 
-                        num_attention_heads=4, 
+                        num_hidden_layers=8, 
+                        num_attention_heads=8, 
                         intermediate_size=1024,
                         tcn=tcn,iteration=4)
         channel_snr=args.snr
@@ -97,15 +97,15 @@ if __name__ == "__main__":
         [transforms.ToTensor(), ])
     trainset = torchvision.datasets.CIFAR10(root='./data/cifar', train=True,
                                             download=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,
                                               shuffle=True, num_workers=2)
     testset = torchvision.datasets.CIFAR10(root='./data/cifar', train=False,
                                            download=True, transform=transform)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=64,
+    testloader = torch.utils.data.DataLoader(testset, batch_size=128,
                                              shuffle=False, num_workers=2)
 
 
-    optimizer = torch.optim.Adam(model.parameters(),lr=0.00005)
+    optimizer = torch.optim.Adam(model.parameters(),lr=0.0001)
     #optimizer = torch.optim.Adam(model.parameters())
 
     loss_func = nn.MSELoss()
@@ -165,7 +165,9 @@ if __name__ == "__main__":
                             "Best_PSNR":best_psnr
                         }
                         print(PSNR_list)
-                        SNR_path='./checkpoints/SNR_double_T_'+str(channel_snr)  
+                        SNR_rate_folder_path='./checkpoints_16/'
+                        check_dir(SNR_rate_folder_path)      
+                        SNR_path=SNR_rate_folder_path+'SNR_double_T_'+str(channel_snr)  
                         check_dir(SNR_path)      
                         save_path=os.path.join(SNR_path,'Trans_SNR_'+str(channel_snr)+'.pth')
                         torch.save(checkpoint, save_path)
