@@ -7,7 +7,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from einops import rearrange
-from Models.SETR.transformer_model import Att_TransModel2d, TransConfig,TransModel2d,ReciverModel2d,Siam_linear
+from Models.SETR.transformer_model import TransConfig,TransModel2d,ReciverModel2d,Siam_linear
 from torch.autograd import Variable
 import math 
 class Channel(nn.Module):
