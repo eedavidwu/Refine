@@ -14,7 +14,7 @@ class Channel(nn.Module):
     def __init__(self):
         super(Channel, self).__init__()
 
-    def forward(self, inputs,input_snr):
+    def forward(self, inputs,input_snr,h):
         in_shape=inputs.shape
         batch_size=in_shape[0]
         z=inputs.contiguous().view(batch_size,-1)
@@ -38,7 +38,7 @@ class Channel(nn.Module):
         noise_img=Variable(torch.normal(mean=mean,std=noise_stddev_board).cuda())
         noise_complex=torch.complex(noise_real,noise_img)
         #add noise:
-        z_out=z_in_norm+noise_complex
+        z_out=h*z_in_norm+noise_complex
         real_out=torch.real(z_out)
         img_out=torch.imag(z_out)
         out=torch.cat((real_out,img_out),dim=1)
@@ -231,23 +231,24 @@ class SETRModel(nn.Module):
         #self.res_decoder=Decoder_Res(in_channel=tcn*3)
         self.decoder_tran=Decoder2D_trans(config,tcn,iteration)
         self.channel=Channel()
-        self.last_iter=4
+        self.last_iter=iteration
         #feature each iteration
         self.tcn=4
-        self.fb_num=52
-        self.iteration=4
+        #self.fb_num=52
+        self.iteration=iteration
 
 
 
-    def transmit_feature(self,feature,channel_snr):
+    def transmit_feature(self,feature,channel_snr,h):
         feature_ave=torch.zeros_like(feature).float().cuda()
-        for i in range (5):
-            channel_out=self.channel(feature,channel_snr)
+        h_complex=torch.complex(h[:,0].unsqueeze(dim=1),h[:,1].unsqueeze(dim=1))
+        for i in range (1):
+            channel_out=self.channel(feature,channel_snr,h_complex)
             feature_ave=feature_ave+channel_out
-        feature_out=feature_ave/5
+        feature_out=feature_ave/1
         return feature_out
 
-    def forward(self, x,input_snr):
+    def forward(self, x,input_snr,h):
         batch_size=x.shape[0]
         if input_snr=='random':
             snr=np.random.rand(batch_size,)*(10+2)-2
@@ -262,7 +263,7 @@ class SETRModel(nn.Module):
         for step_id in range(self.iteration):
             if step_id!=(self.last_iter-1):
                 final_z_seq = self.encoder_2d(x,feedback_for_encoder_all)
-                channel_out=self.transmit_feature(final_z_seq,snr)
+                channel_out=self.transmit_feature(final_z_seq,snr,h)
                 latent_for_decoder_all[:,:,step_id*tcn:(step_id+1)*tcn]=channel_out
                 #feedback_recon=torch.zeros(batch_size,64,48).cuda()
                 feedback_recon=self.decoder_tran(latent_for_decoder_all).detach()
@@ -272,7 +273,7 @@ class SETRModel(nn.Module):
                 
             else:
                 final_z_seq = self.encoder_2d(x,feedback_for_encoder_all)
-                channel_out=self.transmit_feature(final_z_seq,snr)
+                channel_out=self.transmit_feature(final_z_seq,snr,h)
                 latent_for_decoder_all[:,:,step_id*tcn:(step_id+1)*tcn]=channel_out
                 out=self.decoder_tran(latent_for_decoder_all)
                 x_out = rearrange(out, "b (h w) (p1 p2 c) -> b c (h p1) (w p2)", p1 = 4, p2 = 4, h = 8, w = 8, c =3)

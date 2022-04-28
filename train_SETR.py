@@ -1,7 +1,7 @@
 import os
 #os.environ["CUDA_VISIBLE_DEVICES"] ="0"
-#GPU_ids = [0]
-GPU_ids = [0,1]
+GPU_ids = [0]
+#GPU_ids = [0,1,2,3]
 import torch 
 from Models.SETR.transformer_seg import SETRModel
 import torchvision
@@ -19,6 +19,22 @@ def check_dir(dir):
     if not os.path.exists(dir):
         os.mkdir(dir)
 
+def compute_channel_gain(b):
+    if args.fading==1:
+        h_stddev=torch.full((b,1),np.sqrt(1/2)).float()
+        h_mean=torch.zeros_like(h_stddev).float()
+        h_real=torch.normal(mean=h_mean,std=h_stddev).float()
+        h_img=torch.normal(mean=h_mean,std=h_stddev).float()
+        h=torch.cat((h_real,h_img),dim=1).cuda()
+        #h=torch.complex(h[:,0].unsqueeze(dim=1),h[:,1].unsqueeze(dim=1))
+    else:
+        h_real=torch.full((b,1),1).float()
+        h_img=torch.full((b,1),0).float()
+        h=torch.cat((h_real,h_img),dim=1).cuda()
+        #h=torch.complex(h[:,0].unsqueeze(dim=1),h[:,1].unsqueeze(dim=1)).cuda()
+    return h
+
+
 def compute_AvePSNR(model,dataloader,snr):
     psnr_all_list = []
     model.eval()
@@ -26,8 +42,12 @@ def compute_AvePSNR(model,dataloader,snr):
     for batch_idx, (inputs, _) in enumerate(dataloader, 0):
         b,c,h,w=inputs.shape[0],inputs.shape[1],inputs.shape[2],inputs.shape[3]
         inputs = inputs.cuda()
-        outputs= model(inputs,snr)
-    
+        outputs=torch.zeros_like(inputs).float().cuda()
+        for trans in range (2):
+            channel_gain=compute_channel_gain(b)
+            out_each= model(inputs,snr,channel_gain)
+            outputs=outputs+out_each
+        outputs=outputs/2
         MSE_each_image = (torch.sum(MSE_compute(outputs, inputs).view(b,-1),dim=1))/(c*h*w)
         PSNR_each_image = 10 * torch.log10(1 / MSE_each_image)
         one_batch_PSNR=PSNR_each_image.data.cpu().numpy()
@@ -54,6 +74,8 @@ if __name__ == "__main__":
     parser.add_argument("--input_snr_max", default=20, type=float,help='SNR (db)')
     parser.add_argument("--input_snr_min", default=0, type=int,help='SNR (db)')
     parser.add_argument("--resume", default=False,type=bool, help='Load past model')
+    parser.add_argument("--fading", default=1,type=int, help='fading or not')
+
     args=parser.parse_args()
     check_dir('checkpoints')
     check_dir('data')
@@ -61,13 +83,18 @@ if __name__ == "__main__":
     if args.model=='SETR':
         #64*6 1/8 ->(4,4) tcn=6/iter
         #print("64*8 1/6 ->(4,4) tcn=8/2")
-        print("64*16 1/3 -> tcn=16/4")
+       
 
         print('head: 8')
-        iter_num=4
-        tcn=16//iter_num
-        print('iter: 2')
-        #print("16*24 1/8->(8,8) tcn=24")
+        iter_num=2
+        print('iter:',iter_num)
+        if iter_num==4:
+            tcn=16//iter_num
+            print("64*16 1/3 -> tcn=16/4")
+        if iter_num==2:
+            tcn=8//iter_num
+            print("64*8 1/6 -> tcn=8/2")
+        print('fading flag:',args.fading)
         
         model = SETRModel(patch_size=(4, 4), 
                         in_channels=3, 
@@ -76,9 +103,9 @@ if __name__ == "__main__":
                         num_hidden_layers=8, 
                         num_attention_heads=8, 
                         intermediate_size=1024,
-                        tcn=tcn,iteration=4)
-        channel_snr=args.snr
-        #channel_snr='random'
+                        tcn=tcn,iteration=iter_num)
+        #channel_snr=args.snr
+        channel_snr='random'
 
     print('snr:',channel_snr)
     print(model)
@@ -131,20 +158,26 @@ if __name__ == "__main__":
         report_loss = 0
         #val_ave_psnr=compute_AvePSNR(model,testloader,1)
 
+
         for in_data, label in trainloader:
             batch_size = len(in_data)
             in_data = in_data.to(device) 
-            #label = label.to(device)
             optimizer.zero_grad()
             step += 1
-            out= model(in_data,channel_snr)
+            #label = label.to(device)
+            out=torch.zeros_like(in_data).float().cuda()
+            for trans in range (2):
+                channel_gain_train=compute_channel_gain(batch_size)
+                out_each= model(in_data,channel_snr,channel_gain_train)
+                out=out+out_each
+            out=out/2
             loss = loss_func(out, in_data)
             loss.backward()
             optimizer.step()
             report_loss += loss.item()
         print('Epoch:[',epoch,']',", loss : " ,str(report_loss/step))
 
-        if (((epoch % 4 == 0) and (epoch>50)) or (epoch==0)):
+        if (((epoch % 10 == 0) and (epoch>50)) or (epoch==0)):
             if args.model=='SETR':
                 if channel_snr=='random':
                     PSNR_list=[]
@@ -165,11 +198,11 @@ if __name__ == "__main__":
                             "Best_PSNR":best_psnr
                         }
                         print(PSNR_list)
-                        SNR_rate_folder_path='./checkpoints_16/'
+                        SNR_rate_folder_path='./checkpoints_8/'
                         check_dir(SNR_rate_folder_path)      
-                        SNR_path=SNR_rate_folder_path+'SNR_double_T_'+str(channel_snr)  
-                        check_dir(SNR_path)      
-                        save_path=os.path.join(SNR_path,'Trans_SNR_'+str(channel_snr)+'.pth')
+                        #SNR_path=SNR_rate_folder_path+'SNR_double_T_'+str(channel_snr)  
+                        #check_dir(SNR_path)      
+                        save_path=os.path.join(SNR_rate_folder_path,'Trans_SNR_'+str(channel_snr)+'.pth')
                         torch.save(checkpoint, save_path)
                         print('Saving Model at epoch',epoch,'at',save_path)       
 
