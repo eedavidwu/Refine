@@ -351,9 +351,12 @@ class ReciverModel2d(nn.Module):
         return encoder_layers
 
 class InputDense2d(nn.Module):
-    def __init__(self, config,tcn,iteration):
+    def __init__(self, config,tcn,iteration,refine_flag):
         super(InputDense2d, self).__init__()
-        self.dense = nn.Linear(config.patch_size[0] * config.patch_size[1] * config.in_channels+(48+tcn)*(iteration-1), config.hidden_size)
+        if refine_flag==1:
+            self.dense = nn.Linear(config.patch_size[0] * config.patch_size[1] * config.in_channels+(48+tcn)*(iteration-1), config.hidden_size)
+        else:
+            self.dense = nn.Linear(config.patch_size[0] * config.patch_size[1] * config.in_channels+(tcn)*(iteration-1), config.hidden_size)
         self.transform_act_fn = ACT2FN[config.hidden_act]
         self.LayerNorm = TransLayerNorm(config.hidden_size, eps=config.layer_norm_eps)
 
@@ -402,10 +405,10 @@ class Input_denoise_Dense2d(nn.Module):
         return hidden_state_out
 
 class TransModel2d(nn.Module):
-    def __init__(self, config,tcn,iteration):
+    def __init__(self, config,tcn,iteration,refine_flag):
         super(TransModel2d, self).__init__()
         self.config = config
-        self.dense = InputDense2d(config,tcn,iteration)
+        self.dense = InputDense2d(config,tcn,iteration,refine_flag)
         #self.dense = Siam_linear(config,config.patch_size[0] * config.patch_size[1] * config.in_channels+tcn,0)
         self.embeddings = TransEmbeddings(config)
         self.encoder = TransEncoder(config)
