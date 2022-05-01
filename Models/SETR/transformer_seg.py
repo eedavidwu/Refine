@@ -100,11 +100,11 @@ class Fading_Channel(nn.Module):
         return channel_com_out#,inputs_in_norm
 
 class Encoder2D(nn.Module):
-    def __init__(self, config: TransConfig, tcn,iteration):
+    def __init__(self, config: TransConfig, tcn,iteration,refine_flag):
         super().__init__()
         self.config = config
         self.out_channels = config.out_channels
-        self.bert_model = TransModel2d(config,tcn,iteration)
+        self.bert_model = TransModel2d(config,tcn,iteration,refine_flag)
         sample_rate = config.sample_rate
         sample_v = int(math.pow(2, sample_rate))
         #sample_rate=4,sample_v=16
@@ -215,7 +215,7 @@ class SETRModel(nn.Module):
                         num_attention_heads=16,
                         max_position_embeddings=64,
                         intermediate_size=512,
-                        sample_rate=2,tcn=4,iteration=4):
+                        sample_rate=2,tcn=4,iteration=4,refine_flag=0):
         super().__init__()
         config = TransConfig(patch_size=patch_size, 
                             in_channels=in_channels, 
@@ -226,7 +226,8 @@ class SETRModel(nn.Module):
                             max_position_embeddings=max_position_embeddings,
                             num_hidden_layers=num_hidden_layers, 
                             num_attention_heads=num_attention_heads)
-        self.encoder_2d = Encoder2D(config,tcn,iteration)
+        self.refine_flag=refine_flag
+        self.encoder_2d = Encoder2D(config,tcn,iteration,refine_flag)
         #self.decoder_2d = Decoder2D(in_channels=tcn, out_channels=config.out_channels, features=decode_features)
         #self.res_decoder=Decoder_Res(in_channel=tcn*3)
         self.decoder_tran=Decoder2D_trans(config,tcn,iteration)
@@ -257,7 +258,11 @@ class SETRModel(nn.Module):
         tcn=self.tcn
 
 
-        feedback_for_encoder_all=torch.zeros(batch_size,64,(52)*(self.last_iter-1)).cuda()
+        if self.refine_flag==1:
+            feedback_for_encoder_all=torch.zeros(batch_size,64,(52)*(self.last_iter-1)).cuda()
+        else:
+            feedback_for_encoder_all=torch.zeros(batch_size,64,(4)*(self.last_iter-1)).cuda()
+
         latent_for_decoder_all=torch.zeros(batch_size,64,4*(self.last_iter)).cuda()
 
         for step_id in range(self.iteration):
@@ -266,10 +271,14 @@ class SETRModel(nn.Module):
                 channel_out=self.transmit_feature(final_z_seq,snr,h)
                 latent_for_decoder_all[:,:,step_id*tcn:(step_id+1)*tcn]=channel_out
                 #feedback_recon=torch.zeros(batch_size,64,48).cuda()
-                feedback_recon=self.decoder_tran(latent_for_decoder_all).detach()
-                #prepare feedback
-                feedback_for_next_iter=torch.cat((feedback_recon,channel_out),dim=2)
-                feedback_for_encoder_all[:,:,step_id*52:(step_id+1)*52]=feedback_for_next_iter
+                if self.refine_flag==1:
+                    feedback_recon=self.decoder_tran(latent_for_decoder_all).detach()
+                    #prepare feedback
+                    feedback_for_next_iter=torch.cat((feedback_recon,channel_out),dim=2)
+                    feedback_for_encoder_all[:,:,step_id*52:(step_id+1)*52]=feedback_for_next_iter
+                else:
+                    feedback_for_next_iter=channel_out
+                    feedback_for_encoder_all[:,:,step_id*4:(step_id+1)*4]=feedback_for_next_iter
                 
             else:
                 final_z_seq = self.encoder_2d(x,feedback_for_encoder_all)
