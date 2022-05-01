@@ -1,7 +1,7 @@
 import os
 #os.environ["CUDA_VISIBLE_DEVICES"] ="0"
-GPU_ids = [0]
-#GPU_ids = [0,1,2,3]
+#GPU_ids = [0]
+GPU_ids = [0,1,2,3]
 import torch 
 from Models.SETR.transformer_seg import SETRModel
 import torchvision
@@ -75,6 +75,7 @@ if __name__ == "__main__":
     parser.add_argument("--input_snr_min", default=0, type=int,help='SNR (db)')
     parser.add_argument("--resume", default=False,type=bool, help='Load past model')
     parser.add_argument("--fading", default=1,type=int, help='fading or not')
+    parser.add_argument("--refine", default=1,type=int, help='refine or not')
 
     args=parser.parse_args()
     check_dir('checkpoints')
@@ -103,11 +104,13 @@ if __name__ == "__main__":
                         num_hidden_layers=8, 
                         num_attention_heads=8, 
                         intermediate_size=1024,
-                        tcn=tcn,iteration=iter_num)
-        #channel_snr=args.snr
-        channel_snr='random'
+                        tcn=tcn,iteration=iter_num,refine_flag=args.refine)
+        channel_snr=args.snr
+        #channel_snr='random'
 
     print('snr:',channel_snr)
+    print('fading',args.fading)
+    print('refine_flag',args.refine)
     print(model)
     print("############## Train model",args.model,",with SNR: ",channel_snr," ##############")
     if len(GPU_ids)>1:
@@ -166,11 +169,11 @@ if __name__ == "__main__":
             step += 1
             #label = label.to(device)
             out=torch.zeros_like(in_data).float().cuda()
-            for trans in range (2):
+            for trans in range (1):
                 channel_gain_train=compute_channel_gain(batch_size)
                 out_each= model(in_data,channel_snr,channel_gain_train)
                 out=out+out_each
-            out=out/2
+            out=out/1
             loss = loss_func(out, in_data)
             loss.backward()
             optimizer.step()
@@ -198,7 +201,7 @@ if __name__ == "__main__":
                             "Best_PSNR":best_psnr
                         }
                         print(PSNR_list)
-                        SNR_rate_folder_path='./checkpoints_8/'
+                        SNR_rate_folder_path='./checkpoints_8_fading/'
                         check_dir(SNR_rate_folder_path)      
                         #SNR_path=SNR_rate_folder_path+'SNR_double_T_'+str(channel_snr)  
                         #check_dir(SNR_path)      
@@ -228,7 +231,7 @@ if __name__ == "__main__":
                             "SNR":channel_snr,
                             "Best_PSNR":best_psnr
                         }
-                        SNR_path='./checkpoints/SNR_T_'+str(channel_snr)  
+                        SNR_path='./checkpoints_8_fading/SNR_T_'+str(channel_snr)  
                         check_dir(SNR_path)      
                         save_path=os.path.join(SNR_path,'SETR_double_iter_'+str(channel_snr)+'.pth')
                         torch.save(checkpoint, save_path)
